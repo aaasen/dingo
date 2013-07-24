@@ -10,8 +10,8 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	router.GetController(r).Respond(w, r)
 }
 
-func Run() {
-	router = LoadRouter("")
+func Run(routerPath string) {
+	router = LoadRouter(routerPath)
 
 	http.HandleFunc("/", handle)
 	http.ListenAndServe(":"+Port, nil)

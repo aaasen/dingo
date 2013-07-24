@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	dingo.Run()
+	dingo.Run("routes")
 }
