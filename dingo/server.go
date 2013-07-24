@@ -1,27 +1,18 @@
 package dingo
 
 import (
-	"fmt"
 	"net/http"
 )
 
-func Hello() {
-	fmt.Println("hey!")
-}
+var router *Router
 
-func loadFile(c chan string, path string) {
-	// content, _ := ioutil.ReadFile(path)
-	// c <- string(content)
-	c <- "concurrent"
-}
-
-func staticHandler(w http.ResponseWriter, r *http.Request) {
-	c := make(chan string)
-	go loadFile(c, r.URL.Path[1:])
-	fmt.Fprintf(w, string(<-c))
+func handle(w http.ResponseWriter, r *http.Request) {
+	router.GetController(r).Respond(w, r)
 }
 
 func Run() {
-	http.HandleFunc("/", staticHandler)
+	router = LoadRouter("")
+
+	http.HandleFunc("/", handle)
 	http.ListenAndServe(":"+Port, nil)
 }
