@@ -20,7 +20,7 @@ func NewRoute(method string, path string, controller Controller) *Route {
 	route := &Route{
 		method:     method,
 		path:       path,
-		pathRegex:  regexp.MustCompile("^" + path + "$"),
+		pathRegex:  regexp.MustCompile("^" + path + "/?$"),
 		controller: controller,
 	}
 
