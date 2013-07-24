@@ -1,5 +1,6 @@
 package dingo
 
 type Config struct {
-	Port string
+	Port        string
+	TemplateDir string
 }

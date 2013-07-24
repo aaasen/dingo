@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/aaasen/dingo"
 	"net/http"
 )
@@ -9,7 +8,7 @@ import (
 type IndexController struct{}
 
 func (c IndexController) Respond(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "index!")
+	dingo.RenderTemplate(w, "index.html", nil)
 }
 
 type Page struct {

@@ -6,11 +6,14 @@ import (
 
 type Server struct {
 	Router *Router
-	config Config
 }
 
+// global configuration
+var conf Config
+
 func New(config Config) *Server {
-	server := Server{Router: NewRouter(), config: config}
+	conf = config
+	server := Server{Router: NewRouter()}
 	return &server
 }
 
@@ -20,5 +23,5 @@ func (server *Server) handle(w http.ResponseWriter, r *http.Request) {
 
 func (server *Server) Run() {
 	http.HandleFunc("/", server.handle)
-	http.ListenAndServe(":"+server.config.Port, nil)
+	http.ListenAndServe(":"+conf.Port, nil)
 }

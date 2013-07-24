@@ -6,7 +6,8 @@ import (
 
 func main() {
 	devConf := dingo.Config{
-		Port: "8080",
+		Port:        "8080",
+		TemplateDir: "templates/",
 	}
 
 	server := dingo.New(devConf)

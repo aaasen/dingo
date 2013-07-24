@@ -10,7 +10,7 @@ type Viewer interface {
 }
 
 func RenderTemplate(w http.ResponseWriter, templateName string, data interface{}) {
-	templates := template.Must(template.ParseFiles(templateName))
+	templates := template.Must(template.ParseFiles(conf.TemplateDir + templateName))
 	err := templates.ExecuteTemplate(w, templateName, data)
 
 	if err != nil {
