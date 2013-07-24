@@ -5,7 +5,11 @@ import (
 )
 
 func main() {
-	server := dingo.New()
+	devConf := dingo.Config{
+		Port: "8080",
+	}
+
+	server := dingo.New(devConf)
 
 	route := dingo.NewRoute(
 		"GET",
