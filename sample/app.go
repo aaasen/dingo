@@ -7,11 +7,11 @@ import (
 func main() {
 	server := dingo.New()
 
-	route := &dingo.Route{
-		Method:     "GET",
-		Path:       "/",
-		Controller: dingo.IndexController{},
-	}
+	route := dingo.NewRoute(
+		"GET",
+		"/",
+		dingo.IndexController{},
+	)
 
 	server.Router.AddRoute(route)
 
