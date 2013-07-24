@@ -4,15 +4,20 @@ import (
 	"net/http"
 )
 
-var router *Router
-
-func handle(w http.ResponseWriter, r *http.Request) {
-	router.GetController(r).Respond(w, r)
+type Server struct {
+	Router *Router
 }
 
-func Run(routerPath string) {
-	router = LoadRouter(routerPath)
+func New() *Server {
+	server := Server{Router: NewRouter()}
+	return &server
+}
 
-	http.HandleFunc("/", handle)
+func (server *Server) handle(w http.ResponseWriter, r *http.Request) {
+	server.Router.GetController(r).Respond(w, r)
+}
+
+func (server *Server) Run() {
+	http.HandleFunc("/", server.handle)
 	http.ListenAndServe(":"+Port, nil)
 }
