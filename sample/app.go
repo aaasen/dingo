@@ -11,13 +11,11 @@ func main() {
 
 	server := dingo.New(devConf)
 
-	route := dingo.NewRoute(
-		"GET",
-		"/",
-		IndexController{},
-	)
-
+	route := dingo.NewRoute("GET", "/", IndexController{})
 	server.Router.AddRoute(route)
+
+	pageRoute := dingo.NewRoute("GET", "/page", PageController{})
+	server.Router.AddRoute(pageRoute)
 
 	server.Run()
 }
