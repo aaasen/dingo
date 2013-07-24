@@ -10,7 +10,7 @@ func main() {
 	route := dingo.NewRoute(
 		"GET",
 		"/",
-		dingo.IndexController{},
+		IndexController{},
 	)
 
 	server.Router.AddRoute(route)

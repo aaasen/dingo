@@ -9,9 +9,8 @@ type Controller interface {
 	Respond(http.ResponseWriter, *http.Request)
 }
 
-type IndexController struct {
-}
+type Controller404 struct{}
 
-func (i IndexController) Respond(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("controller called")
+func (c Controller404) Respond(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "404 error: file not found")
 }
