@@ -5,7 +5,7 @@ import (
 )
 
 type Server struct {
-	Router *Router
+	Router *ARouter
 }
 
 // global configuration
