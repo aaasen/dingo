@@ -9,15 +9,10 @@ func main() {
 		Port:        "8080",
 		TemplateDir: "templates/",
 		StaticDir:   "assets/",
+		Routes:      routes,
 	}
 
 	server := dingo.New(devConf)
-
-	route := dingo.NewHandler("GET", "/", IndexController{})
-	server.Router.AddHandler(route)
-
-	pageRoute := dingo.NewHandler("GET", "/page", PageController{})
-	server.Router.AddHandler(pageRoute)
 
 	server.Run()
 }

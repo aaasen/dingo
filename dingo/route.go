@@ -55,6 +55,10 @@ func (router *ARouter) AddHandler(handler *AHandler) {
 	router.routes = append(router.routes, handler)
 }
 
+func (router *ARouter) SetHandlers(handlers []*AHandler) {
+	router.routes = handlers
+}
+
 var varReplacer = regexp.MustCompile("<([A-Za-z0-9\\.-]+?)>")
 
 func NewHandler(method string, path string, controller Controller) *AHandler {

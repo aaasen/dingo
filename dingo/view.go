@@ -6,6 +6,8 @@ import (
 )
 
 type Viewer interface {
+	// takes an arbitrary struct and writes a
+	// representation of it to the the http response
 	Render(http.ResponseWriter, interface{})
 }
 

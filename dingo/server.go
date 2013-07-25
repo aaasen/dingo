@@ -14,6 +14,7 @@ var conf Config
 func New(config Config) *Server {
 	conf = config
 	server := Server{Router: NewRouter()}
+	server.Router.SetHandlers(config.Routes)
 	return &server
 }
 
