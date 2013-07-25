@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/aaasen/dingo"
+	"io/ioutil"
 	"net/http"
 )
 
@@ -27,4 +28,18 @@ func (c PageController) Respond(w http.ResponseWriter, r *http.Request) {
 	m := Page{"hello"}
 	v := new(PageView)
 	v.Render(w, m)
+}
+
+type StaticController struct {
+	rootPath string
+}
+
+func (c StaticController) Respond(w http.ResponseWriter, r *http.Request) {
+	content, err := ioutil.ReadFile(r.URL.Path[1:])
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusNotFound)
+	}
+
+	w.Write(content)
 }

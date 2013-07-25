@@ -18,5 +18,8 @@ func main() {
 	pageRoute := dingo.NewHandler("GET", "/page", PageController{})
 	server.Router.AddHandler(pageRoute)
 
+	assetRoute := dingo.NewHandler("GET", "/assets/css/defaults.css", StaticController{"assets/"})
+	server.Router.AddHandler(assetRoute)
+
 	server.Run()
 }
