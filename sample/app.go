@@ -5,14 +5,6 @@ import (
 )
 
 func main() {
-	devConf := dingo.Config{
-		Port:        "8080",
-		TemplateDir: "templates/",
-		StaticDir:   "assets/",
-		Routes:      routes,
-	}
-
-	server := dingo.New(devConf)
-
+	server := dingo.New(config)
 	server.Run()
 }
