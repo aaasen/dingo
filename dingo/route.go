@@ -34,14 +34,22 @@ func NewRouter() *ARouter {
 	return router
 }
 
-func (router *ARouter) GetController(r *http.Request) Controller {
+type ControllerNotFoundError struct {
+	request *http.Request
+}
+
+func (e ControllerNotFoundError) Error() string {
+	return "no controller found for path: " + e.request.URL.Path
+}
+
+func (router *ARouter) GetController(r *http.Request) (Controller, error) {
 	for _, handler := range router.routes {
 		if handler.SatisfiesRequest(r) {
-			return handler.controller
+			return handler.controller, nil
 		}
 	}
 
-	return new(Controller404)
+	return nil, ControllerNotFoundError{r}
 }
 
 func (router *ARouter) AddHandler(handler *AHandler) {
