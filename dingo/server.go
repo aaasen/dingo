@@ -22,6 +22,7 @@ func (server *Server) handle(w http.ResponseWriter, r *http.Request) {
 }
 
 func (server *Server) Run() {
+	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets/"))))
 	http.HandleFunc("/", server.handle)
 	http.ListenAndServe(":"+conf.Port, nil)
 }
