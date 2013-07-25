@@ -18,13 +18,7 @@ func New(config Config) *Server {
 }
 
 func (server *Server) handle(w http.ResponseWriter, r *http.Request) {
-	controller, err := server.Router.GetController(r)
-
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusNotFound)
-	} else {
-		controller.Respond(w, r)
-	}
+	server.Router.Route(w, r)
 }
 
 func (server *Server) Run() {
