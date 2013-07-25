@@ -1,6 +1,7 @@
 package dingo
 
 import (
+	"fmt"
 	"net/http"
 	"regexp"
 	"strings"
@@ -57,10 +58,14 @@ func (router *ARouter) AddHandler(handler *AHandler) {
 }
 
 func NewHandler(method string, path string, controller Controller) *AHandler {
+	varReplacer := regexp.MustCompile("<[A-Za-z0-9\\.-]+>")
+	pathRegex := varReplacer.ReplaceAllString(path, "(.+?)")
+	pathRegex = "^" + pathRegex + "/?$"
+
 	route := &AHandler{
 		method:     method,
 		path:       path,
-		pathRegex:  regexp.MustCompile("^" + path + "/?$"),
+		pathRegex:  regexp.MustCompile(pathRegex),
 		controller: controller,
 	}
 
