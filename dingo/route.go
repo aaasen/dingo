@@ -55,15 +55,16 @@ func (router *ARouter) AddHandler(handler *AHandler) {
 	router.routes = append(router.routes, handler)
 }
 
+var varReplacer = regexp.MustCompile("<([A-Za-z0-9\\.-]+?)>")
+
 func NewHandler(method string, path string, controller Controller) *AHandler {
-	varReplacer := regexp.MustCompile("<[A-Za-z0-9\\.-]+>")
-	pathRegex := varReplacer.ReplaceAllString(path, "(.+?)")
-	pathRegex = "^" + pathRegex + "/?$"
+	pathRegex := regexp.MustCompile("^" +
+		varReplacer.ReplaceAllString(path, "(.+)") + "/?$")
 
 	route := &AHandler{
 		method:     method,
 		path:       path,
-		pathRegex:  regexp.MustCompile(pathRegex),
+		pathRegex:  pathRegex,
 		controller: controller,
 	}
 
@@ -76,5 +77,19 @@ func (handler *AHandler) SatisfiesRequest(r *http.Request) bool {
 }
 
 func (handler *AHandler) HandleRequest(w http.ResponseWriter, r *http.Request) {
-	handler.controller.Respond(w, r)
+	names := varReplacer.FindAllStringSubmatch(handler.path, -1)
+	values := handler.pathRegex.FindAllStringSubmatch(r.URL.Path, -1)[0][1:]
+
+	if len(names) != len(values) {
+		http.Error(w, "internal server error", http.StatusInternalServerError)
+		return
+	}
+
+	m := make(map[string]string)
+
+	for i := 0; i < len(names); i++ {
+		m[names[i][1]] = values[i]
+	}
+
+	handler.controller.Respond(w, r, m)
 }

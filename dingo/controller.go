@@ -5,5 +5,5 @@ import (
 )
 
 type Controller interface {
-	Respond(http.ResponseWriter, *http.Request)
+	Respond(http.ResponseWriter, *http.Request, map[string]string)
 }

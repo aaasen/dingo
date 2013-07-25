@@ -8,7 +8,7 @@ import (
 
 type IndexController struct{}
 
-func (c IndexController) Respond(w http.ResponseWriter, r *http.Request) {
+func (c IndexController) Respond(w http.ResponseWriter, r *http.Request, data map[string]string) {
 	dingo.RenderTemplate(w, "index.html", nil)
 }
 
@@ -24,7 +24,7 @@ func (v PageView) Render(w http.ResponseWriter, data interface{}) {
 
 type PageController struct{}
 
-func (c PageController) Respond(w http.ResponseWriter, r *http.Request) {
+func (c PageController) Respond(w http.ResponseWriter, r *http.Request, data map[string]string) {
 	m := Page{"hello"}
 	v := new(PageView)
 	v.Render(w, m)
@@ -34,8 +34,8 @@ type StaticController struct {
 	rootPath string
 }
 
-func (c StaticController) Respond(w http.ResponseWriter, r *http.Request) {
-	content, err := ioutil.ReadFile(r.URL.Path[1:])
+func (c StaticController) Respond(w http.ResponseWriter, r *http.Request, data map[string]string) {
+	content, err := ioutil.ReadFile(c.rootPath + data["path"])
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusNotFound)
