@@ -1,0 +1,16 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html>
+  <head>
+    {{template "head" .}}
+    
+    <title>Dingo</title>
+  </head>
+  
+  <body>
+    <div id="content">
+      {{template "content" .}}
+    </div>
+  </body>
+</html>
+{{end}}
